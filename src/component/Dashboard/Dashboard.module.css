@@ -1,0 +1,56 @@
+.background {
+    background-color: #fefbf5;
+    border-radius: 20px;
+    padding: 5%;
+    width: 550px;
+    height: max-content;
+    color: black;
+    margin-top: 2%;
+}
+
+.title,
+.percent {
+    font-weight: bold;
+}
+
+.title {
+    font-size: xx-large;
+}
+
+.chart {
+    padding: 3% 0 5% 0;
+    bottom: 0;
+}
+
+.highest {
+    background-color: #7bb2b7;
+}
+
+.footer {
+    display: flex;
+    align-items: flex-end;
+    border-top: 1px solid #e0d8d0;
+    padding-top: 5%;
+}
+
+.amountContainer {
+    flex: 1;
+}
+
+.totalTitle, 
+.percentDetails {
+    color: #8b7e73;
+}
+
+.totalAmount {
+    font-size: 3em;
+    font-weight: bold;
+}
+
+.percentContainer {
+    text-align: right;
+    bottom: 1;
+}
+
+
+

@@ -1,0 +1,28 @@
+.bar {
+    border: none;
+    border-radius: 5px;
+    width: 60px;
+}
+
+.bar:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+.amount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: black;
+    color: #fefbf5;
+    width: 70px;
+    height: 30px;
+    margin-bottom: 5%;
+    border-radius: 5px;
+}
+
+.title {
+    color: #8b7e73;
+    margin-top: 10%;
+}

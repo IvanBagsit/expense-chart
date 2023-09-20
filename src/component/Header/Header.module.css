@@ -1,0 +1,25 @@
+.background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ea755d;
+    border-radius: 20px;
+    padding: 5%;
+    width: 550px;
+    color: #fefbf5;
+    text-align: left;
+    margin-bottom: 2%;
+}
+
+.amount {
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.balance {
+    flex: 1;
+}
+
+.logo {
+    
+}
