@@ -25,7 +25,7 @@ const BarGraph = ({ title, amount, percent, isHighest }) => {
 		>
 			{isHovered && (
 				<Grid item>
-					<div className={styles.amount}>${amount}</div>
+					<div className={styles.amount}>${amount.toFixed(2)}</div>
 				</Grid>
 			)}
 			<Grid item>
@@ -40,7 +40,9 @@ const BarGraph = ({ title, amount, percent, isHighest }) => {
 				/>
 			</Grid>
 			<Grid item>
-				<div className={styles.title}>{title}</div>
+				<div className={styles.title}>
+					{title.slice(0, 3).toLowerCase()}
+				</div>
 			</Grid>
 		</Grid>
 	);

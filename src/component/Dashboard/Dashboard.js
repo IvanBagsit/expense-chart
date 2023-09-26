@@ -2,12 +2,56 @@ import styles from "./Dashboard.module.css";
 import Chart from "../Chart";
 import { Button, Dialog } from "@mui/material";
 import { BiMoneyWithdraw } from "react-icons/bi";
-import { useState } from "react";
-import { DialogTitle } from "@material-ui/core";
-import AddExpenseModal from "../Modal/AddExpenseModal";
+import { useEffect, useState } from "react";
+import { TextField } from "@material-ui/core";
+import DetailsModal from "../Modal/DetailsModal";
+import { Formik, Field, Form } from "formik";
+import * as Yup from "yup";
 
-const Dashboard = (data) => {
+const Dashboard = ({ data }) => {
+	const initialInputValues = [
+		{ day: "Monday", amount: "" },
+		{ day: "Tuesday", amount: "" },
+		{ day: "Wednesday", amount: "" },
+		{ day: "Thursday", amount: "" },
+		{ day: "Friday", amount: "" },
+		{ day: "Saturday", amount: "" },
+		{ day: "Sunday", amount: "" },
+	];
+
 	const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
+	const [inputValues, setInputValues] = useState(initialInputValues);
+	const [initialData, setInitialData] = useState(data);
+
+	const amountChecker = (value) => {
+		const parsedNumber = parseFloat(value);
+		if (!isNaN(parsedNumber)) {
+			return parsedNumber;
+		} else {
+			return 0;
+		}
+	};
+
+	const handleInputChange = (index, value) => {
+		setInputValues((prevValues) => {
+			const updatedValues = [...prevValues];
+			updatedValues[index].amount = value;
+			return updatedValues;
+		});
+	};
+
+	const handleExpenseSubmit = () => {
+		const updatedValues = inputValues.map((item) => ({
+			...item,
+			amount: amountChecker(item.amount),
+		}));
+		setInitialData(updatedValues);
+		setIsExpenseModalOpen(false);
+	};
+
+	const totalAmount = initialData.reduce((accumulator, item) => {
+		return accumulator + item.amount;
+	}, 0);
 
 	return (
 		<div>
@@ -28,25 +72,45 @@ const Dashboard = (data) => {
 					</div>
 				</div>
 				<div className={styles.chart}>
-					<Chart data={data} />
+					<Chart data={initialData} />
 				</div>
 				<div container className={styles.footer}>
-					<div className={styles.amountContainer}>
+					<div>
 						<div className={styles.totalTitle}>Total this week</div>
-						<div className={styles.totalAmount}>$478.33</div>
-					</div>
-					<div className={styles.percentContainer}>
-						<div className={styles.percent}>+2.4%</div>
-						<div className={styles.percentDetails}>
-							from last week
+						<div className={styles.totalAmount}>
+							${totalAmount.toFixed(2)}
 						</div>
 					</div>
 				</div>
 			</div>
 			{isExpenseModalOpen && (
-				<AddExpenseModal
+				<DetailsModal
 					open={isExpenseModalOpen}
-					close={() => setIsExpenseModalOpen(false)}
+					close={() => {
+						setIsExpenseModalOpen(false);
+						setInputValues(initialInputValues);
+					}}
+					title={"Weekly Expense"}
+					primaryBtnLabel={"Submit"}
+					secondaryBtnLabel={"Cancel"}
+					content={inputValues?.map((item, index) => {
+						return (
+							<TextField
+								name={item.day}
+								key={index}
+								fullWidth
+								label={item.day}
+								variant="outlined"
+								size="small"
+								style={{ marginBottom: "3%" }}
+								value={item.amount}
+								onChange={(e) =>
+									handleInputChange(index, e.target.value)
+								}
+							/>
+						);
+					})}
+					submit={handleExpenseSubmit}
 				/>
 			)}
 		</div>

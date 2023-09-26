@@ -2,7 +2,7 @@ import { Grid } from "@material-ui/core";
 import BarGraph from "./BarGraph";
 
 const Chart = ({ data }) => {
-	const tempData = data.data;
+	const tempData = data;
 	const maxAmount = tempData.reduce(
 		(max, item) => (item.amount > max ? item.amount : max),
 		tempData[0].amount

@@ -8,8 +8,7 @@
     margin-top: 2%;
 }
 
-.title,
-.percent {
+.title {
     font-weight: bold;
 }
 
@@ -34,23 +33,13 @@
     padding-top: 5%;
 }
 
-.amountContainer {
-    flex: 1;
-}
-
-.totalTitle, 
-.percentDetails {
+.totalTitle {
     color: #8b7e73;
 }
 
 .totalAmount {
     font-size: 3em;
     font-weight: bold;
-}
-
-.percentContainer {
-    text-align: right;
-    bottom: 1;
 }
 
 .header {

@@ -3,7 +3,7 @@ import { ReactComponent as Logo } from "../../images/logo.svg";
 import { Button } from "@mui/material";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useState } from "react";
-import CashInModal from "../Modal/CashInModal";
+import DetailsModal from "../Modal/DetailsModal";
 
 const Header = () => {
 	const [isCashInModalShown, setIsCashInModalShown] = useState(false);
@@ -31,9 +31,13 @@ const Header = () => {
 				</div>
 			</div>
 			{isCashInModalShown && (
-				<CashInModal
+				<DetailsModal
+					title={"Cash In"}
+					primaryBtnLabel={"Submit"}
+					secondaryBtnLabel={"Cancel"}
 					open={isCashInModalShown}
 					close={() => setIsCashInModalShown(false)}
+					content={<div>HI</div>}
 				/>
 			)}
 		</div>
