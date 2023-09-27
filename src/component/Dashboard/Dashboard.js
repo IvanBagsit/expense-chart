@@ -68,7 +68,7 @@ const Dashboard = () => {
 			dispatch(updateTotalExpense(totalAmount));
 			dispatch(updateBalance(balance - totalAmount));
 			setIsFullPageLoaderShown(false);
-		}, 3000);
+		}, 2000);
 	}, [totalAmount, initialData]);
 
 	return (
