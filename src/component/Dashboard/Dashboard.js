@@ -1,14 +1,25 @@
 import styles from "./Dashboard.module.css";
 import Chart from "../Chart";
-import { Button, Dialog } from "@mui/material";
+import { Button } from "@mui/material";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { TextField } from "@material-ui/core";
 import DetailsModal from "../Modal/DetailsModal";
-import { Formik, Field, Form } from "formik";
-import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { updateBalance, updateTotalExpense } from "../redux/redux";
+import FullPageLoader from "../FullPageLoader/FullPageLoader";
 
-const Dashboard = ({ data }) => {
+const Dashboard = () => {
+	const initialDataValue = [
+		{ day: "Monday", amount: 0 },
+		{ day: "Tuesday", amount: 0 },
+		{ day: "Wednesday", amount: 0 },
+		{ day: "Thursday", amount: 0 },
+		{ day: "Friday", amount: 0 },
+		{ day: "Saturday", amount: 0 },
+		{ day: "Sunday", amount: 0 },
+	];
+
 	const initialInputValues = [
 		{ day: "Monday", amount: "" },
 		{ day: "Tuesday", amount: "" },
@@ -19,39 +30,46 @@ const Dashboard = ({ data }) => {
 		{ day: "Sunday", amount: "" },
 	];
 
+	const [isFullPageLoaderShown, setIsFullPageLoaderShown] = useState(false);
 	const [isExpenseModalOpen, setIsExpenseModalOpen] = useState(false);
 	const [inputValues, setInputValues] = useState(initialInputValues);
-	const [initialData, setInitialData] = useState(data);
+	const [initialData, setInitialData] = useState(initialDataValue);
 
-	const amountChecker = (value) => {
-		const parsedNumber = parseFloat(value);
-		if (!isNaN(parsedNumber)) {
-			return parsedNumber;
-		} else {
-			return 0;
-		}
-	};
+	const dispatch = useDispatch();
+	const totalExpense = useSelector(
+		(state) => state.expenseSlice.totalExpense
+	);
+	const balance = useSelector((state) => state.expenseSlice.balance);
 
 	const handleInputChange = (index, value) => {
 		setInputValues((prevValues) => {
 			const updatedValues = [...prevValues];
-			updatedValues[index].amount = value;
+			updatedValues[index].amount = value.replace(/[^0-9]/g, "");
 			return updatedValues;
 		});
 	};
 
+	const totalAmount = initialData.reduce((accumulator, item) => {
+		return accumulator + (item.amount || 0);
+	}, 0);
+
 	const handleExpenseSubmit = () => {
 		const updatedValues = inputValues.map((item) => ({
 			...item,
-			amount: amountChecker(item.amount),
+			amount: parseFloat(isNaN(item.amount) ? 0 : item.amount),
 		}));
 		setInitialData(updatedValues);
 		setIsExpenseModalOpen(false);
 	};
 
-	const totalAmount = initialData.reduce((accumulator, item) => {
-		return accumulator + item.amount;
-	}, 0);
+	useEffect(() => {
+		setIsFullPageLoaderShown(true);
+		setTimeout(() => {
+			dispatch(updateTotalExpense(totalAmount));
+			dispatch(updateBalance(balance - totalAmount));
+			setIsFullPageLoaderShown(false);
+		}, 3000);
+	}, [totalAmount, initialData, balance, dispatch]);
 
 	return (
 		<div>
@@ -78,7 +96,7 @@ const Dashboard = ({ data }) => {
 					<div>
 						<div className={styles.totalTitle}>Total this week</div>
 						<div className={styles.totalAmount}>
-							${totalAmount.toFixed(2)}
+							${totalExpense.toFixed(2)}
 						</div>
 					</div>
 				</div>
@@ -88,11 +106,11 @@ const Dashboard = ({ data }) => {
 					open={isExpenseModalOpen}
 					close={() => {
 						setIsExpenseModalOpen(false);
-						setInputValues(initialInputValues);
 					}}
 					title={"Weekly Expense"}
 					primaryBtnLabel={"Submit"}
 					secondaryBtnLabel={"Cancel"}
+					hint={"* accepts valid numbers only"}
 					content={inputValues?.map((item, index) => {
 						return (
 							<TextField
@@ -112,6 +130,9 @@ const Dashboard = ({ data }) => {
 					})}
 					submit={handleExpenseSubmit}
 				/>
+			)}
+			{isFullPageLoaderShown && (
+				<FullPageLoader open={isFullPageLoaderShown} />
 			)}
 		</div>
 	);

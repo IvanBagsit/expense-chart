@@ -5,10 +5,20 @@ const expenseSlice = createSlice({
 	initialState: {
 		balance: 0,
 		totalExpense: 0,
-		reducers: {
-			updateBalance(state, action) {
-				state.balance -= state.totalExpense;
-			},
+	},
+	reducers: {
+		addBalance(state, action) {
+			state.balance += action.payload;
+		},
+		updateBalance(state, action) {
+			state.balance = action.payload;
+		},
+		updateTotalExpense(state, action) {
+			state.totalExpense = action.payload;
 		},
 	},
 });
+
+export const { updateBalance, updateTotalExpense, addBalance } =
+	expenseSlice.actions;
+export default expenseSlice.reducer;

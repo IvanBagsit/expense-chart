@@ -14,12 +14,17 @@ const DetailsModal = ({
 	open,
 	close,
 	submit,
+	disablePrimaryButton = false,
+	hint,
 	content,
 }) => {
 	return (
 		<Dialog open={open} maxWidth={"xs"} fullWidth>
 			<DialogTitle className={styles.title}>{title}</DialogTitle>
-			<DialogContent className={styles.content}>{content}</DialogContent>
+			<DialogContent className={styles.content}>
+				<div>{content}</div>
+				<div className={styles.hint}>{hint}</div>
+			</DialogContent>
 			<DialogActions className={styles.footer}>
 				<Button variant="outlined" color="primary" onClick={close}>
 					{secondaryBtnLabel}
@@ -29,6 +34,7 @@ const DetailsModal = ({
 					variant="contained"
 					color="primary"
 					onClick={submit}
+					disabled={disablePrimaryButton}
 				>
 					{primaryBtnLabel}
 				</Button>

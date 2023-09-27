@@ -9,3 +9,9 @@
 .content {
     margin: 3% 0% 3% 0%;
 }
+
+.hint {
+	color: #8b9095;
+	font-size: 14px;
+	font-style: italic;
+}
