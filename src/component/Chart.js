@@ -2,16 +2,21 @@ import { Grid } from "@material-ui/core";
 import BarGraph from "./BarGraph";
 
 const Chart = ({ data }) => {
-	const tempData = data.data;
+	const tempData = data;
+	const calculatePercent = (amount, maxAmount) => {
+		const tempPercent = ((amount / maxAmount) * 100).toFixed(2);
+		return isNaN(tempPercent) ? 0 : tempPercent;
+	};
+
 	const maxAmount = tempData.reduce(
 		(max, item) => (item.amount > max ? item.amount : max),
-		tempData[0].amount
+		0
 	);
 
 	const percentArray = tempData.map((data) => ({
 		day: data.day,
 		amount: data.amount,
-		percent: ((data.amount / maxAmount) * 100).toFixed(2),
+		percent: calculatePercent(data.amount, maxAmount),
 		isHighest: data.amount >= maxAmount,
 	}));
 

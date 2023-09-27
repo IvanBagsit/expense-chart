@@ -17,9 +17,32 @@
 }
 
 .balance {
+    display: flex;
     flex: 1;
+    align-items: center;
 }
 
-.logo {
-    
+.cashInButton {
+    margin-left: 3%;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.contentTitle {
+    margin-bottom: 5%;
+}
+
+.contentMessage {
+    margin-top: 20%;
+}
+
+img {
+    height: 100px;
+    width: auto;
 }
